@@ -100,11 +100,7 @@ public class StringListImpl implements StringList {
 
         Element element = new Element(item, index);
 
-        for (int i = 0; i < size(); i++) {
-            if (i == index) {
-                stringList[i] = element;
-            }
-        }
+        stringList[index] = element;
 
         return stringList[index].getValue();
     }
@@ -222,7 +218,7 @@ public class StringListImpl implements StringList {
         // index validation
         if (index < 0 || index >= size()) throw new WrongIndexExemption("Wrong Index! Choose index from 0 to " + (size()-1) + "(inclusive)!");
 
-        return stringListUtilities.findElement(stringList, index).getValue();
+        return stringList[index].getValue();
     }
 
     // Сравнить текущий список с другим.
