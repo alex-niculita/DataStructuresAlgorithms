@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class IntegerListImpl implements IntegerList {
 
-    private final int CAPACITY = 10;
+    private int CAPACITY = 10;
     private Integer[] integers = new Integer[CAPACITY];
 
     private int size;
@@ -17,7 +17,12 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public Integer add(Integer item) {
         checkNull(item);
-        checkCapacity();
+
+        if (size() == CAPACITY) {
+            integers = grow(integers);
+            setCAPACITY(integers.length);
+        }
+
         integers[size] = item;
         size++;
         return item;
@@ -27,7 +32,10 @@ public class IntegerListImpl implements IntegerList {
     public Integer add(int index, Integer item) {
         checkNull(item);
         checkIndex(index);
-        checkCapacity();
+        if (size() == CAPACITY) {
+            integers = grow(integers);
+            setCAPACITY(integers.length);
+        }
 
 //        if (index == size) {
 //            integers[size] = item;
@@ -75,7 +83,7 @@ public class IntegerListImpl implements IntegerList {
     public boolean contains(Integer item) {
         checkNull(item);
         Integer[] tempArr = this.toArray();
-        sortInsertion(tempArr);
+        mergeSort(tempArr);
         return binarySearch(tempArr, item);
     }
 
@@ -157,6 +165,49 @@ public class IntegerListImpl implements IntegerList {
         }
     }
 
+
+    private void mergeSort(Integer[] arr){
+        if (arr.length < 2) {
+            return;
+        }
+        int mid = arr.length / 2;
+        Integer[] left = new Integer[mid];
+        Integer[] right = new Integer[arr.length - mid];
+
+        for (int i = 0; i < left.length; i++) {
+            left[i] = arr[i];
+        }
+
+        for (int i = 0; i < right.length; i++) {
+            right[i] = arr[mid + i];
+        }
+
+        mergeSort(left);
+        mergeSort(right);
+
+        merge(arr, left, right);
+    }
+
+    private void merge(Integer[] arr, Integer[] left, Integer[] right) {
+
+        int mainP = 0;
+        int leftP = 0;
+        int rightP = 0;
+        while (leftP < left.length && rightP < right.length) {
+            if (left[leftP] <= right[rightP]) {
+                arr[mainP++] = left[leftP++];
+            } else {
+                arr[mainP++] = right[rightP++];
+            }
+        }
+        while (leftP < left.length) {
+            arr[mainP++] = left[leftP++];
+        }
+        while (rightP < right.length) {
+            arr[mainP++] = right[rightP++];
+        }
+    }
+
     private boolean binarySearch(Integer[] arr, Integer item) {
         int min = 0;
         int max = arr.length - 1;
@@ -173,6 +224,17 @@ public class IntegerListImpl implements IntegerList {
             }
         }
         return false;
+    }
+
+    private Integer[] grow(Integer[] arr) {
+        if (arr == null) return null;
+        Integer[] newArr = new Integer[arr.length + (arr.length / 2)];
+        System.arraycopy(arr, 0, newArr, 0, arr.length);
+        return newArr;
+    }
+
+    public void setCAPACITY(int CAPACITY) {
+        this.CAPACITY = CAPACITY;
     }
 
 }

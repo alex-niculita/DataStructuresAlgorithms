@@ -6,17 +6,42 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) {
 
-        long start = System.currentTimeMillis();
-        sortBubble(generateRandomArray());
-        System.out.println(System.currentTimeMillis() - start);
+        IntegerList integerList = new IntegerListImpl();
 
-        start = System.currentTimeMillis();
-        sortSelection(generateRandomArray());
-        System.out.println(System.currentTimeMillis() - start);
+        integerList.add(7);
+        integerList.add(2);
+        integerList.add(1);
+        integerList.add(5);
+        integerList.add(4);
+        integerList.add(9);
+        integerList.add(11);
+        integerList.add(118);
+        integerList.add(6);
 
-        start = System.currentTimeMillis();
-        sortInsertion(generateRandomArray());
-        System.out.println(System.currentTimeMillis() - start);
+        System.out.println(Arrays.toString(integerList.toArray()));
+        System.out.println(integerList.size());
+
+        integerList.add(3);
+        System.out.println(Arrays.toString(integerList.toArray()));
+        System.out.println(integerList.size());
+
+        integerList.add(8);
+        System.out.println(Arrays.toString(integerList.toArray()));
+        System.out.println(integerList.size());
+
+        System.out.println(integerList.contains(8));
+
+//        long start = System.currentTimeMillis();
+//        sortBubble(generateRandomArray());
+//        System.out.println(System.currentTimeMillis() - start);
+//
+//        start = System.currentTimeMillis();
+//        sortSelection(generateRandomArray());
+//        System.out.println(System.currentTimeMillis() - start);
+//
+//        start = System.currentTimeMillis();
+//        sortInsertion(generateRandomArray());
+//        System.out.println(System.currentTimeMillis() - start);
 
     }
 
